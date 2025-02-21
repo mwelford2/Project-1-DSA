@@ -9,18 +9,14 @@
 
 class Student {
 public:
-    Student* left;
-    Student* right;
+    Student* LEFT;
+    Student* RIGHT;
 
-    std::string name;
+    std::string NAME;
     int ID;
 
     Student(int gatorID, std::string name);
-    Student& operator=(const Student& n);
-    bool operator==(int n);
-    bool operator==(const Student& n) const;
-    bool operator<(const Student& n) const;
-    bool operator>(const Student& n) const;
+    Student& operator=(const Student& S);
 };
 
 

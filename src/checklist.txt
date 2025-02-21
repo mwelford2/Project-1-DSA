@@ -1,0 +1,13 @@
+this is the checklist for the project:
+AVLTree:
+    *   insert NAME ID
+    *   remove ID
+    *   search ID
+    *   search NAME
+    *   printInorder
+    *   printPreorder
+    *   printPostorder
+    *   printLevelCount
+    *   removeInorder N
+Student:
+    -   DONE!

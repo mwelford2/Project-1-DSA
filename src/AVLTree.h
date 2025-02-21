@@ -12,7 +12,7 @@
 
 class AVLTree {
     Student* root;
-    void deleteTree(Student* s);
+    void deleteTree(Student* S);
     Student* searchIDHelper(Student* n, int id);
     Student* searchNameHelper(Student* n, std::string Name);
     Student* removeIDHelper(Student* n, int id);
@@ -26,10 +26,10 @@ public:
     Student* searchID(int id);
     Student* searchName(std::string name);
 
-    std::vector<Student> inorder(){ return {Student(1, "jo")};}
+    std::vector<Student> inorder();
     std::vector<Student> preorder();
     std::vector<Student> postorder();
-    int height(){return 1;}
+    int height(){return 1;}//NOT DONE????!!?!?
     bool isBalanced(){return false;} //impelemnt correcly later
     bool insert(int s, const char* str) {return false;} //for test assignment
     bool insert(const char* s, const char* str) {return false;} //for test assignment

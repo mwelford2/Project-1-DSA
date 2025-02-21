@@ -6,38 +6,19 @@
 
 Student::Student(int gatorID, std::string name) {
     this->ID = gatorID;
-    this->name = name;
-    this->left = nullptr;
-    this->right = nullptr;
+    this->NAME = name;
+    this->LEFT = nullptr;
+    this->RIGHT = nullptr;
 }
 
-Student& Student::operator=(const Student& n)
+Student& Student::operator=(const Student& S)
 {
-    if (this != &n)
+    if (this != &S)
     {
-        this->ID = n.ID;
-        this->name = n.name;
+        this->ID = S.ID;
+        this->NAME = S.NAME;
     }
     return *this;
-}
-
-bool Student::operator==(int n)
-{
-    return ID==n;
-}
-
-bool Student::operator==(const Student& n) const
-{
-    return n.ID == this->ID;
-}
-
-bool Student::operator>(const Student& n) const
-{
-    return n.ID>this->ID;
-}
-bool Student::operator<(const Student& n) const
-{
-    return n.ID<this->ID;
 }
 
 

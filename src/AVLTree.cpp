@@ -3,22 +3,26 @@
 //
 
 #include "AVLTree.h"
+#include <iostream>
+#include <ostream>
+using namespace std;
 
 AVLTree::AVLTree() { root = nullptr; }
 AVLTree::~AVLTree() { deleteTree(root); }
-void AVLTree::deleteTree(Student* s)
+void AVLTree::deleteTree(Student* S)
 {
-    if (s)
+    if(S)
     {
-        deleteTree(s->left);
-        deleteTree(s->right);
-        delete s;
+        deleteTree(S->LEFT);
+        deleteTree(S->RIGHT);
+        delete S;
     }
 }
 
 
-bool AVLTree::insert(Student* s)
+bool AVLTree::insert(Student* S)
 {
+
     return false;
 }
 
@@ -28,56 +32,73 @@ bool AVLTree::removeID(int id)
     removeIDHelper(root, id);
     return true;
 } //POSSIBLE ERROR: putting both n and prev as root?
-Student* AVLTree::removeIDHelper(Student* n, int id)
+Student* AVLTree::removeIDHelper(Student* S, int ID)
 {
-    if (!n) return n; //base case
+    if (!S) return S; //base case
 
-    if (id > n->ID) n->right = removeIDHelper(n->right, id);
-    else if (id < n->ID) n->left = removeIDHelper(n->left, id);
+    if (ID > S->ID) S->RIGHT = removeIDHelper(S->RIGHT, ID);
+    else if (ID < S->ID) S->LEFT = removeIDHelper(S->LEFT, ID);
 
     else
     {
-        if (!n->left)
+        if (!S->LEFT)
         {
-            Student* t = n->right;
-            delete n;
+            Student* t = S->RIGHT;
+            delete S;
             return t;
         }
-        if (!n->right)
+        if (!S->RIGHT)
         {
-            Student* t = n->left;
-            delete n;
+            Student* t = S->LEFT;
+            delete S;
             return t;
         }
 
-        Student* succ = getSuccessor(n);
-        n = succ;
-        n->right = removeIDHelper(n->right, succ->ID);
+        Student* succ = getSuccessor(S);
+        S = succ;
+        S->RIGHT = removeIDHelper(S->RIGHT, succ->ID);
     }
-    return n;
+    return S;
 }
 
 
-
-Student* AVLTree::searchID(int id){ return searchIDHelper(root, id); }
-Student* AVLTree::searchIDHelper(Student* n, int id)
+//DONE
+Student* AVLTree::searchID(int ID)
 {
-    if(!n) return nullptr;
-    if (id == n->ID) return n;
-    if (id>n->ID) return searchIDHelper(n->right, id);
-    return searchIDHelper(n->left, id);
+    Student* S = searchIDHelper(root, ID);
+    if(S)
+        cout << S->NAME << endl;
+    else
+        cout << "unsuccessful" << endl;
+
+    return S;
+}
+//DONE (i think)
+Student* AVLTree::searchIDHelper(Student* S, int ID)
+{
+    if(!S) return nullptr;
+    if (ID == S->ID) return S;
+    if (ID > S->ID)return searchIDHelper(S->RIGHT, ID);
+    return searchIDHelper(S->LEFT, ID);
 }
 
-Student* AVLTree::searchName(std::string name) { return searchNameHelper(root, name); }
-Student* AVLTree::searchNameHelper(Student* n, std::string Name)
+//NOT DONE.  the search name function is completely different than the ID function. we have to recode this lol
+Student* AVLTree::searchName(std::string NAME)
 {
-    if (!n) return nullptr;
-    if (n->name == Name) return n;
 
-    Student* l = searchNameHelper(n->left, Name);
-    Student* r = searchNameHelper(n->right, Name);
+
+    return searchNameHelper(root, NAME);
+
+}
+Student* AVLTree::searchNameHelper(Student* S, std::string NAME)
+{
+    if (!S) return nullptr;
+    if (S->NAME == NAME) return S;
+
+    Student* l = searchNameHelper(S->LEFT, NAME);
+    Student* r = searchNameHelper(S->RIGHT, NAME);
 
     if (l) return l;
     return r;
-} //O(n), can make more efficient?
+}
 
