@@ -123,23 +123,65 @@ int AVLTree::findHeight(Student* S)
     return leftHeight > rightHeight ? leftHeight : rightHeight;
 }
 
-//this should work, i think?
+//CLEAR INORDER LIST BEFORE CALLING THIS
 void AVLTree::traverseInOrder(Student* S = root)
 {
     Student* l = S->LEFT;
     Student* r = S->RIGHT;
     if(l != nullptr)
         traverseInOrder(l);
+    inOrder.push_back(S);
     if(r != nullptr)
         traverseInOrder(r);
-    cout << S->NAME << endl;
-    inOrder.push_back(S);
 }
 
 void AVLTree::printInOrder()
 {
+    inOrder.clear();
     traverseInOrder();
     for(int i = 0; i < inOrder.size()-1; i++)
         cout << inOrder[i]->NAME << ", ";
     cout << inOrder[inOrder.size()-1]->NAME << endl;
+}
+
+//CLEAR PREORDER LIST BEFORE CALLING THIS
+void AVLTree::traversePreOrder(Student* S = root)
+{
+    preOrder.push_back(S);
+    Student* l = S->LEFT;
+    Student* r = S->RIGHT;
+    if(l != nullptr)
+        traversePreOrder(l);
+    if(r != nullptr)
+        traversePreOrder(r);
+}
+
+void AVLTree::printPreOrder()
+{
+    preOrder.clear();
+    traversePreOrder();
+    for(int i = 0; i < preOrder.size()-1; i++)
+        cout << preOrder[i]->NAME << ", ";
+    cout << preOrder[preOrder.size()-1]->NAME << endl;
+}
+
+//CLEAR POSTORDER LIST BEFORE CALLING THIS
+void AVLTree::traversePostOrder(Student* S = root)
+{
+    Student* l = S->LEFT;
+    Student* r = S->RIGHT;
+    if(l != nullptr)
+        traversePostOrder(l);
+    if(r != nullptr)
+        traversePostOrder(r);
+    postOrder.push_back(S);
+}
+
+void AVLTree::printPostOrder()
+{
+    postOrder.clear();
+    traversePostOrder();
+    for(int i = 0; i < postOrder.size()-1; i++)
+        cout << postOrder[i]->NAME << ", ";
+    cout << postOrder[postOrder.size()-1]->NAME << endl;
 }
