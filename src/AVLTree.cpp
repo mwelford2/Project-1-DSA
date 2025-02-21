@@ -26,10 +26,10 @@ bool AVLTree::insert(Student* S)
     return false;
 }
 
-bool AVLTree::removeID(int id)
+bool AVLTree::removeID(int ID)
 {
-    if (!searchID(id)) return false;
-    removeIDHelper(root, id);
+    if (!searchID(ID)) return false;
+    removeIDHelper(root, ID);
     return true;
 } //POSSIBLE ERROR: putting both n and prev as root?
 Student* AVLTree::removeIDHelper(Student* S, int ID)
