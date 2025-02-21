@@ -102,3 +102,22 @@ Student* AVLTree::searchNameHelper(Student* S, std::string NAME)
     return r;
 }
 
+//i coded these two functions but idk why i did it lol. it doesnt look like we need them. LMFAO
+int AVLTree::height()
+{
+    return findHeight(root);
+}
+int AVLTree::findHeight(Student* S)
+{
+    int leftHeight, rightHeight = 1;
+    Student* l = root->LEFT;
+    Student* r = root->RIGHT;
+
+    if(l != nullptr)
+        leftHeight += findHeight(l);
+    if(r != nullptr)
+        rightHeight += findHeight(r);
+
+    //return whichever height is greater
+    return leftHeight > rightHeight ? leftHeight : rightHeight;
+}
