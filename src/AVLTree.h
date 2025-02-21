@@ -21,7 +21,7 @@ public:
     AVLTree();
     ~AVLTree();
 
-    void insert(Student* S);
+    void insert(std::string Name, int ID);
     Student* findNodeToInsertUnder(Student* S, int ID);
     Student* findAncestor(Student* S, int ID);
     void balanceTheTree(Student* theCulprit, Student* ancestor);
