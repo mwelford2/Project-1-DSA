@@ -112,7 +112,7 @@ void AVLTree::insert(string Name, int ID)
     }
 
     Student* S = new Student(ID, Name);
-    Student* parent = findNodeToInsertUnder(root, S);
+    Student* parent = findNodeToInsertUnder(root, S->ID);
     if (parent == nullptr) root = S; //in case the tree is empty
 
     //insert the child node
