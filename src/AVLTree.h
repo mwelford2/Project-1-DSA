@@ -23,6 +23,8 @@ public:
 
     void insert(Student* S);
     Student* findNodeToInsertUnder(Student* S, int ID);
+    Student* findAncestor(Student* S, int ID);
+    void balanceTheTree(Student* theCulprit, Student* ancestor);
     bool remove(int ID);
     Student* search(int ID);
     Student* search(std::string NAME);
