@@ -94,6 +94,164 @@ Student* AVLTree::searchNameHelper(Student* S, std::string NAME)
     return r;
 }
 
+void AVLTree::insert(string Name, int ID)
+{
+    //makes sure this is a unique ID
+    if(!search(ID))
+    {
+        cout << "unsuccessful" << endl;
+        return;
+    }
+
+    //makes sure the name follows the constraints
+    if(!nameIsOK())
+    {
+        cout << "unsuccessful" << endl;
+        return;
+    }
+
+    Student* S = new Student(ID, Name);
+    Student* parent = findNodeToInsertUnder(root, S);
+    if (parent == nullptr) root = S; //in case the tree is empty
+
+    //insert the child node
+    if(S->ID > parent->ID)
+        parent->RIGHT = S;
+    else
+        parent->LEFT = S;
+
+    //the only situation you need to find this is if the height from the root is > 3
+    if(findHeight(root) > 3)
+        ;
+
+    //now we have to balance this thang lol
+    if(findHeight(parent) > 2 && findHeight(root) > 3)
+        balanceTheTree(S, findAncestor(root, S->ID));
+
+}
+
+Student* AVLTree::findAncestor(Student* S, int ID)
+{
+    Student* l = S->LEFT;
+    Student* r = S->RIGHT;
+    if(l && l->ID == ID) return S;
+    if(r && r->ID == ID) return S;
+    if(l && ID < S->ID) return findAncestor(l, ID);
+    if(r && ID > S->ID) return findAncestor(r, ID);
+    return nullptr;
+}
+
+//this one is for the big boy trees lol
+void AVLTree::balanceTheTree(Student* theCulprit, Student* ancestor = nullptr)
+{
+    //determine the case
+    bool RR, LL, LR, RL = false;
+    Student* l = theCulprit->LEFT;
+    Student* r = theCulprit->RIGHT;
+    if(l)
+    {
+        Student* ll = l->LEFT;
+        Student* lr = l->RIGHT;
+        if(ll)
+            LL = true;
+        if(lr)
+            LR = true;
+    }
+    if(r)
+    {
+        Student* rl = r->LEFT;
+        Student* rr = r->RIGHT;
+        if(rl)
+            RL = true;
+        if(rr)
+            RR = true;
+    }
+
+    //left left case
+    if(LL)
+    {
+        Student* topNode = theCulprit;
+        Student* midNode = theCulprit->LEFT;
+        topNode->LEFT = nullptr;
+        midNode->LEFT = topNode;
+        if(ancestor)
+            if(midNode->ID < ancestor->ID)
+                ancestor->LEFT = midNode;
+            else
+                ancestor->RIGHT = midNode;
+        if(findHeight()==2) root = midNode;
+    }
+
+    if(RR)
+    {
+        Student* topNode = theCulprit;
+        Student* midNode = theCulprit->RIGHT;
+        topNode->RIGHT = nullptr;
+        midNode->RIGHT = topNode;
+        if(ancestor)
+            if(midNode->ID < ancestor->ID)
+                ancestor->LEFT = midNode;
+            else
+                ancestor->RIGHT = midNode;
+        if(findHeight()==2) root = midNode;
+    }
+
+    if(LR)
+    {
+        Student* topNode = theCulprit;
+        Student* midNode = theCulprit->LEFT;
+        Student* botNode = theCulprit->LEFT->RIGHT;
+
+        topNode->LEFT = nullptr;
+        topNode->RIGHT = nullptr;
+        midNode->RIGHT = nullptr;
+        botNode->LEFT = midNode;
+        botNode->RIGHT = topNode;
+
+        if(ancestor)
+            if(midNode->ID < ancestor->ID)
+                ancestor->LEFT = midNode;
+            else
+                ancestor->RIGHT = midNode;
+        if(findHeight()==2) root = midNode;
+    }
+
+    if(RL)
+    {
+        Student* topNode = theCulprit;
+        Student* midNode = theCulprit->RIGHT;
+        Student* botNode = theCulprit->RIGHT->LEFT;
+
+        topNode->LEFT = nullptr;
+        topNode->RIGHT = nullptr;
+        midNode->LEFT = nullptr;
+        botNode->LEFT = topNode;
+        botNode->RIGHT = midNode;
+
+        if(ancestor)
+            if(midNode->ID < ancestor->ID)
+                ancestor->LEFT = midNode;
+            else
+                ancestor->RIGHT = midNode;
+        if(findHeight()==2) root = midNode;
+    }
+}
+
+Student* AVLTree::findUnbalancedRoot()
+
+//DONE (i think)
+Student* AVLTree::findNodeToInsertUnder(Student* S, int ID)
+{
+    if (!S) return nullptr;
+    Student* l = S->LEFT;
+    Student* r = S->RIGHT;
+    if(l && l->ID > ID)
+        return findNodeToInsertUnder(l, ID);
+    if(r && r->ID < ID)
+        return findNodeToInsertUnder(r, ID);
+    return S;
+}
+
 //this can also be used to when we are trying to balance the tree. we'll see...
 //DONE (i think)
 int AVLTree::findHeight(Student* S = root)

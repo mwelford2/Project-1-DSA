@@ -22,6 +22,7 @@ public:
     ~AVLTree();
 
     void insert(Student* S);
+    Student* findNodeToInsertUnder(Student* S, int ID);
     bool remove(int ID);
     Student* search(int ID);
     Student* search(std::string NAME);
