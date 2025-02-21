@@ -4,10 +4,10 @@ AVLTree:
     *   remove ID
     *   search ID
     *   search NAME
-    *   printInorder
-    *   printPreorder
-    *   printPostorder
-    *   printLevelCount
-    *   removeInorder N
+    *   [DONE I THINK] printInorder
+    *   [DONE I THINK] printPreorder
+    *   [DONE I THINK] printPostorder
+    *   [DONE I THINK] printLevelCount
+    *   [DONE I THINK] removeInorder N
 Student:
     -   DONE!
