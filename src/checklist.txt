@@ -2,7 +2,7 @@ this is the checklist for the project:
 AVLTree:
     *   insert NAME ID
     *   remove ID
-    *   search ID
+    *   [DONE I THINK] search ID
     *   search NAME
     *   [DONE I THINK] printInorder
     *   [DONE I THINK] printPreorder
