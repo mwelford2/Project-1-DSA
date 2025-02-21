@@ -120,16 +120,14 @@ void AVLTree::insert(string Name, int ID)
     else
         parent->LEFT = S;
 
-    //the only situation you need to find this is if the height from the root is > 3
-    if(findHeight(root) > 3)
-        ;
-
     //now we have to balance this thang lol
+    //the only situation you need to find the ancestor is if the height from the root is > 3
     if(findHeight(parent) > 2 && findHeight(root) > 3)
         balanceTheTree(S, findAncestor(root, S->ID));
 
 }
 
+//DONE (i think)
 Student* AVLTree::findAncestor(Student* S, int ID)
 {
     Student* l = S->LEFT;
@@ -141,7 +139,7 @@ Student* AVLTree::findAncestor(Student* S, int ID)
     return nullptr;
 }
 
-//this one is for the big boy trees lol
+//DONE (i think)
 void AVLTree::balanceTheTree(Student* theCulprit, Student* ancestor = nullptr)
 {
     //determine the case
@@ -236,8 +234,6 @@ void AVLTree::balanceTheTree(Student* theCulprit, Student* ancestor = nullptr)
         if(findHeight()==2) root = midNode;
     }
 }
-
-Student* AVLTree::findUnbalancedRoot()
 
 //DONE (i think)
 Student* AVLTree::findNodeToInsertUnder(Student* S, int ID)
