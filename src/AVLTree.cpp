@@ -103,7 +103,8 @@ Student* AVLTree::searchNameHelper(Student* S, std::string NAME)
     return r;
 }
 
-
+//this can also be used to when we are trying to balance the tree. we'll see...
+//DONE (i think)
 int AVLTree::findHeight(Student* S = root)
 {
     if(S == nullptr) return 0; //only returns 0 when the root is nullptr
@@ -121,6 +122,7 @@ int AVLTree::findHeight(Student* S = root)
     return leftHeight > rightHeight ? leftHeight : rightHeight;
 }
 
+//DONE
 void printLevelCount()
 {
     cout << findHeight() << endl;
@@ -193,4 +195,17 @@ void AVLTree::printPostOrder()
     for(int i = 0; i < postOrder.size()-1; i++)
         cout << postOrder[i]->NAME << ", ";
     cout << postOrder[postOrder.size()-1]->NAME << endl;
+}
+
+//DONE
+void AVLTree::removeInorder(int N)
+{
+    //fyi, N is the index of the student that we have to remove in the inorder traversal
+    traverseInOrder();
+    if(N > inOrder.size() || N < 0)
+        cout << "unsuccessful" << endl;
+
+    Student* S = inOrder[N];
+    removeID(S->ID);
+    cout << "successful" << endl;
 }
