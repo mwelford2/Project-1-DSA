@@ -28,11 +28,13 @@ bool AVLTree::remove(int ID)
 } //POSSIBLE ERROR: putting both n and prev as root?
 Student* AVLTree::removeIDHelper(Student* S, int ID)
 {
-    if (!S) return S; //base case
+    if (!S) return nullptr; //base case
 
-    if (ID > S->ID) S->RIGHT = removeIDHelper(S->RIGHT, ID);
-    else if (ID < S->ID) S->LEFT = removeIDHelper(S->LEFT, ID);
-
+    if (ID > S->ID)
+        S->RIGHT = removeIDHelper(S->RIGHT, ID);
+    else
+        if (ID < S->ID)
+            S->LEFT = removeIDHelper(S->LEFT, ID);
     else
     {
         if (!S->LEFT)
