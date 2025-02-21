@@ -1,5 +1,8 @@
 #include <catch2/catch_test_macros.hpp>
 #include <iostream>
+#include <random>
+
+#include "AVLTree.h"
 
 // uncomment and replace the following with your own headers
 // #include "AVL.h"
@@ -50,4 +53,133 @@ TEST_CASE("Example BST Insert", "[flag]"){
 		REQUIRE(expectedOutput.size() == actualOutput.size());
 		REQUIRE(actualOutput == expectedOutput);
 	*/
+}
+
+TEST_CASE("Incorrect inserts","[flag]")
+{
+	AVLTree t;
+
+	bool inserted = t.insert(1, "_joe") && t.insert(2, "jo3")  && t.insert(3,"&sal") && t.insert("98273873837", "joe") && t.insert(1, "joe 💻");
+
+	REQUIRE(!inserted);
+}
+
+TEST_CASE("Insert and rotation","[flag]")
+{
+	Student joe(1, "joe smith");
+	Student jim(2, "jimmy john");
+	Student john(3, "johnny jim");
+	SECTION("Left rotation")
+	{
+		AVLTree t;
+		bool inserted = t.insert(&joe) && t.insert(&jim) && t.insert(&john);
+		REQUIRE(t.isBalanced()); //return true if balance factor is within [-1,1]
+		REQUIRE(inserted);
+	};
+
+	SECTION("Right rotation")
+	{
+		AVLTree t;
+		bool inserted = t.insert(&john) && t.insert(&jim) && t.insert(&joe);
+		REQUIRE(t.isBalanced()); //return true if balance factor is within [-1,1]
+		REQUIRE(inserted);
+	};
+
+	SECTION("Left right rotation")
+	{
+		AVLTree t;
+		bool inserted = t.insert(&john) && t.insert(&joe) && t.insert(&jim);
+		REQUIRE(t.isBalanced()); //return true if balance factor is within [-1,1]
+		REQUIRE(inserted);
+	};
+
+	SECTION("Right left rotation")
+	{
+		AVLTree t;
+		bool inserted = t.insert(&joe) && t.insert(&john) && t.insert(&jim);
+		REQUIRE(t.isBalanced()); //return true if balance factor is within [-1,1]
+		REQUIRE(inserted);
+	};
+}
+
+TEST_CASE("100 nodes test", "[flag]")
+{
+	std::vector<Student> expectedOutput, actualOutput;
+	AVLTree t;
+
+	for(int i = 0; i < 100; i++)
+	{
+		int randomInput = rand();
+		Student* input = new Student(randomInput, "joe");
+		if (std::count(expectedOutput.begin(), expectedOutput.end(), randomInput) == 0)
+		{
+			expectedOutput.push_back(*input);
+			t.insert(input);
+		}
+	}
+
+	actualOutput = t.inorder();
+	std::sort(expectedOutput.begin(), expectedOutput.end());
+	REQUIRE(expectedOutput.size() == actualOutput.size());
+	REQUIRE(expectedOutput == actualOutput);
+
+	//test removals
+	t.removeID(expectedOutput[0].ID);
+	t.removeID(expectedOutput[1].ID);
+	t.removeID(expectedOutput[2].ID);
+	t.removeID(expectedOutput[3].ID);
+	t.removeID(expectedOutput[4].ID);
+	t.removeID(expectedOutput[5].ID);
+	t.removeID(expectedOutput[6].ID);
+	t.removeID(expectedOutput[7].ID);
+	t.removeID(expectedOutput[8].ID);
+	t.removeID(expectedOutput[9].ID);
+
+	expectedOutput.erase(expectedOutput.begin(), expectedOutput.begin() + 10);
+
+	actualOutput = t.inorder();
+
+	REQUIRE(expectedOutput.size() == actualOutput.size());
+	REQUIRE(expectedOutput == actualOutput);
+}
+
+TEST_CASE("search test", "[flag]")
+{
+	AVLTree t;
+	Student s(1, "john");
+	t.insert(&s);
+	REQUIRE(t.searchName("john"));
+	REQUIRE(t.searchID(1));
+}
+
+TEST_CASE("test balance", "[flag]")
+{
+	AVLTree t;
+
+	SECTION("empty tree")
+	{
+		REQUIRE(t.height() == 0);
+	}
+	SECTION("tree with 1 student")
+	{
+		Student n(1,"n");
+		t.insert(&n);
+		REQUIRE(t.height() == 1);
+	}
+	SECTION("tree with multiple students")
+	{
+		Student a(1, "a");
+		Student b(2, "b");
+		Student c(3, "c");
+		Student d(4, "d");
+		Student e(5, "e");
+
+		t.insert(&a);
+		t.insert(&b);
+		t.insert(&c);
+		t.insert(&d);
+		t.insert(&e);
+
+		REQUIRE(t.height() == 3);
+	}
 }
