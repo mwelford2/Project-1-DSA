@@ -59,7 +59,7 @@ Student* AVLTree::removeIDHelper(Student* S, int ID)
 //DONE
 Student* AVLTree::search(int ID)
 {
-    Student* S = searchNameHelper(root, ID);
+    Student* S = searchIDHelper(root, ID);
     if(S == nullptr)
         cout << "unsuccessful" << endl;
     else
@@ -114,7 +114,7 @@ int AVLTree::findHeight(Student* S = root)
 }
 
 //DONE
-void printLevelCount()
+void AVLTree::printLevelCount()
 {
     cout << findHeight() << endl;
 }

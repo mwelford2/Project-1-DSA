@@ -30,6 +30,15 @@ public:
     std::vector<Student*> preOrder;
     std::vector<Student*> postOrder;
     int findHeight(Student* S);
+
+    void printLevelCount();
+    void traverseInOrder(Student* S);
+    void printInOrder();
+    void traversePreOrder(Student* S);
+    void printPreOrder();
+    void traversePostOrder(Student* S);
+    void printPostOrder();
+
 };
 
 
