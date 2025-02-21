@@ -20,16 +20,9 @@ void AVLTree::deleteTree(Student* S)
     }
 }
 
-
-bool AVLTree::insert(Student* S)
+bool AVLTree::remove(int ID)
 {
-
-    return false;
-}
-
-bool AVLTree::removeID(int ID)
-{
-    if (!searchID(ID)) return false;
+    if (!search(ID)) return false;
     removeIDHelper(root, ID);
     return true;
 } //POSSIBLE ERROR: putting both n and prev as root?
@@ -64,14 +57,13 @@ Student* AVLTree::removeIDHelper(Student* S, int ID)
 
 
 //DONE
-Student* AVLTree::searchID(int ID)
+Student* AVLTree::search(int ID)
 {
-    Student* S = searchIDHelper(root, ID);
-    if(S)
-        cout << S->NAME << endl;
-    else
+    Student* S = searchNameHelper(root, ID);
+    if(S == nullptr)
         cout << "unsuccessful" << endl;
-
+    else
+        cout << S->NAME << endl;
     return S;
 }
 //DONE (i think)
@@ -82,15 +74,14 @@ Student* AVLTree::searchIDHelper(Student* S, int ID)
     if (ID > S->ID)return searchIDHelper(S->RIGHT, ID);
     return searchIDHelper(S->LEFT, ID);
 }
-
 //NOT DONE.  the search name function is completely different than the ID function. we have to recode this lol
-Student* AVLTree::searchName(std::string NAME)
+Student* AVLTree::search(std::string NAME)
 {
 
-
-    return searchNameHelper(root, NAME);
-
 }
+
+
+
 Student* AVLTree::searchNameHelper(Student* S, std::string NAME)
 {
     if (!S) return nullptr;
@@ -197,7 +188,7 @@ void AVLTree::printPostOrder()
     cout << postOrder[postOrder.size()-1]->NAME << endl;
 }
 
-//DONE
+//DONE (i think)
 void AVLTree::removeInorder(int N)
 {
     //fyi, N is the index of the student that we have to remove in the inorder traversal
@@ -206,6 +197,6 @@ void AVLTree::removeInorder(int N)
         cout << "unsuccessful" << endl;
 
     Student* S = inOrder[N];
-    removeID(S->ID);
+    remove(S->ID);
     cout << "successful" << endl;
 }
