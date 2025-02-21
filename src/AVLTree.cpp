@@ -103,13 +103,11 @@ Student* AVLTree::searchNameHelper(Student* S, std::string NAME)
     return r;
 }
 
-//i coded these two functions but idk why i did it lol. it doesnt look like we need them. LMFAO
-int AVLTree::height()
+
+int AVLTree::findHeight(Student* S = root)
 {
-    return findHeight(root);
-}
-int AVLTree::findHeight(Student* S)
-{
+    if(S == nullptr) return 0; //only returns 0 when the root is nullptr
+
     int leftHeight, rightHeight = 1;
     Student* l = root->LEFT;
     Student* r = root->RIGHT;
@@ -123,7 +121,13 @@ int AVLTree::findHeight(Student* S)
     return leftHeight > rightHeight ? leftHeight : rightHeight;
 }
 
+void printLevelCount()
+{
+    cout << findHeight() << endl;
+}
+
 //CLEAR INORDER LIST BEFORE CALLING THIS
+//DONE (i think)
 void AVLTree::traverseInOrder(Student* S = root)
 {
     Student* l = S->LEFT;
@@ -135,6 +139,7 @@ void AVLTree::traverseInOrder(Student* S = root)
         traverseInOrder(r);
 }
 
+//DONE (i think)
 void AVLTree::printInOrder()
 {
     inOrder.clear();
@@ -145,6 +150,7 @@ void AVLTree::printInOrder()
 }
 
 //CLEAR PREORDER LIST BEFORE CALLING THIS
+//DONE (i think)
 void AVLTree::traversePreOrder(Student* S = root)
 {
     preOrder.push_back(S);
@@ -156,6 +162,7 @@ void AVLTree::traversePreOrder(Student* S = root)
         traversePreOrder(r);
 }
 
+//DONE (i think)
 void AVLTree::printPreOrder()
 {
     preOrder.clear();
@@ -166,6 +173,7 @@ void AVLTree::printPreOrder()
 }
 
 //CLEAR POSTORDER LIST BEFORE CALLING THIS
+//DONE (i think)
 void AVLTree::traversePostOrder(Student* S = root)
 {
     Student* l = S->LEFT;
@@ -177,6 +185,7 @@ void AVLTree::traversePostOrder(Student* S = root)
     postOrder.push_back(S);
 }
 
+//DONE (i think)
 void AVLTree::printPostOrder()
 {
     postOrder.clear();
