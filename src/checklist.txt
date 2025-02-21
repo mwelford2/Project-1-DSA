@@ -1,6 +1,6 @@
 this is the checklist for the project:
 AVLTree:
-    *   insert NAME ID
+    *   [MOSTLY DONE (I THINK)] insert NAME ID
     *   remove ID
     *   [DONE I THINK] search ID
     *   search NAME

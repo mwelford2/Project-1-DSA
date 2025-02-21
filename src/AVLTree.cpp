@@ -94,6 +94,7 @@ Student* AVLTree::searchNameHelper(Student* S, std::string NAME)
     return r;
 }
 
+///still need to check if the names are good (make the nameIsOK() function)
 void AVLTree::insert(string Name, int ID)
 {
     //makes sure this is a unique ID
@@ -125,6 +126,7 @@ void AVLTree::insert(string Name, int ID)
     if(findHeight(parent) > 2 && findHeight(root) > 3)
         balanceTheTree(S, findAncestor(root, S->ID));
 
+    cout << "successful" << endl;
 }
 
 //DONE (i think)
