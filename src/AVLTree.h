@@ -1,5 +1,5 @@
 //
-// Created by Matteo Welford on 2/13/25.
+// Created by Matteo Welford & Alexander Kolychkine on 2/13/25.
 //
 
 #ifndef AVLTREE_H
