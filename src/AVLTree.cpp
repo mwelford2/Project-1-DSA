@@ -5,6 +5,7 @@
 #include "AVLTree.h"
 #include <iostream>
 #include <ostream>
+#include <vector>
 using namespace std;
 
 AVLTree::AVLTree() { root = nullptr; }
@@ -120,4 +121,25 @@ int AVLTree::findHeight(Student* S)
 
     //return whichever height is greater
     return leftHeight > rightHeight ? leftHeight : rightHeight;
+}
+
+//this should work, i think?
+void AVLTree::traverseInOrder(Student* S = root)
+{
+    Student* l = S->LEFT;
+    Student* r = S->RIGHT;
+    if(l != nullptr)
+        traverseInOrder(l);
+    if(r != nullptr)
+        traverseInOrder(r);
+    cout << S->NAME << endl;
+    inOrder.push_back(S);
+}
+
+void AVLTree::printInOrder()
+{
+    traverseInOrder();
+    for(int i = 0; i < inOrder.size()-1; i++)
+        cout << inOrder[i]->NAME << ", ";
+    cout << inOrder[inOrder.size()-1]->NAME << endl;
 }

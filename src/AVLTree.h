@@ -26,9 +26,9 @@ public:
     Student* searchID(int id);
     Student* searchName(std::string name);
 
-    std::vector<Student> inorder();
-    std::vector<Student> preorder();
-    std::vector<Student> postorder();
+    std::vector<Student*> inOrder;
+    std::vector<Student> preOrder();
+    std::vector<Student> postOrder();
     int height(){return 1;}//NOT DONE????!!?!?
     bool isBalanced(){return false;} //impelemnt correcly later
     bool insert(int s, const char* str) {return false;} //for test assignment
