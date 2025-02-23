@@ -1,13 +1,41 @@
 this is the checklist for the project:
 AVLTree:
     *   [MOSTLY DONE (I THINK)] insert NAME ID
-    *   remove ID
+    *   [DONE] remove ID
     *   [DONE I THINK] search ID
-    *   search NAME
+    *   [DONE] search NAME
     *   [DONE I THINK] printInorder
     *   [DONE I THINK] printPreorder
     *   [DONE I THINK] printPostorder
     *   [DONE I THINK] printLevelCount
     *   [DONE I THINK] removeInorder N
+
 Student:
     -   DONE!
+
+Main:
+    *   [TESTING] commands
+    *   test!
+
+
+
+./Main insert "alex is retárd" 69
+./Main insert "matteo is best" 420
+./Main printInorder
+
+
+insert "q" 1
+insert "w" 2
+insert "e" 3
+insert "r" 4
+insert "t" 5
+insert "y" 6
+insert "u" 7
+
+insert "q" 1
+insert "q" 2
+insert "q" 3
+insert "q" 4
+insert "q" 5
+insert "q" 6
+insert "q" 7

@@ -6,10 +6,13 @@
 #include <iostream>
 #include <ostream>
 #include <vector>
+#include <cctype>
+
 using namespace std;
 
 AVLTree::AVLTree() { root = nullptr; }
 AVLTree::~AVLTree() { deleteTree(root); }
+
 void AVLTree::deleteTree(Student* S)
 {
     if(S)
@@ -20,12 +23,25 @@ void AVLTree::deleteTree(Student* S)
     }
 }
 
+Student* AVLTree::getSuccessor(Student* s)
+{
+    while (s && s->LEFT) s = s->LEFT;
+    return s;
+}
+
+
 bool AVLTree::remove(int ID)
 {
-    if (!search(ID)) return false;
+    if (!search(ID))
+    {
+        cout << "unsuccessful" << endl;
+        return false;
+    }
     removeIDHelper(root, ID);
+    cout << "successful" << endl;
     return true;
-} //POSSIBLE ERROR: putting both n and prev as root?
+}
+
 Student* AVLTree::removeIDHelper(Student* S, int ID)
 {
     if (!S) return nullptr; //base case
@@ -41,12 +57,20 @@ Student* AVLTree::removeIDHelper(Student* S, int ID)
         {
             Student* t = S->RIGHT;
             delete S;
+            Student* p = findAncestor(t, t->ID);
+            if (p->RIGHT->ID == t->ID)
+                p->RIGHT = t;
+            else p->LEFT = t;
             return t;
         }
         if (!S->RIGHT)
         {
             Student* t = S->LEFT;
             delete S;
+            Student* p = findAncestor(t, t->ID);
+            if (p->RIGHT->ID == t->ID)
+                p->RIGHT = t;
+            else p->LEFT = t;
             return t;
         }
 
@@ -56,7 +80,6 @@ Student* AVLTree::removeIDHelper(Student* S, int ID)
     }
     return S;
 }
-
 
 //DONE
 Student* AVLTree::search(int ID)
@@ -76,38 +99,47 @@ Student* AVLTree::searchIDHelper(Student* S, int ID)
     if (ID > S->ID)return searchIDHelper(S->RIGHT, ID);
     return searchIDHelper(S->LEFT, ID);
 }
-//NOT DONE.  the search name function is completely different than the ID function. we have to recode this lol
-Student* AVLTree::search(std::string NAME)
-{
 
+void AVLTree::search(std::string NAME)
+{
+    searchNameHelper(root, NAME);
+}
+void AVLTree::searchNameHelper(Student* S, std::string NAME)
+{
+    if (!S) return;
+    if (S->NAME == NAME) cout<<S->NAME<<endl;
+
+    searchNameHelper(S->LEFT, NAME);
+    searchNameHelper(S->RIGHT, NAME);
+}
+
+bool AVLTree::nameIsOK(string& Name)
+{
+    for (const auto& c: Name)
+    {
+        if (!isalpha(c) && c != ' ') return false;
+    }
+    return true;
 }
 
 
-
-Student* AVLTree::searchNameHelper(Student* S, std::string NAME)
-{
-    if (!S) return nullptr;
-    if (S->NAME == NAME) return S;
-
-    Student* l = searchNameHelper(S->LEFT, NAME);
-    Student* r = searchNameHelper(S->RIGHT, NAME);
-
-    if (l) return l;
-    return r;
-}
-
-///still need to check if the names are good (make the nameIsOK() function)
 void AVLTree::insert(string Name, int ID)
 {
-    //makes sure this is a unique ID
-    if(!search(ID))
+    if (!root)
+    {
+        root = new Student(ID, Name);
+        cout << "successful" << endl;
+        return;
+    }
+    //makes sure this is a unique ID, using the helper so it doesn't print "unsuccessful"
+    if(searchIDHelper(root, ID))
     {
         cout << "unsuccessful" << endl;
         return;
     }
 
     //makes sure the name follows the constraints
-    if(!nameIsOK())
+    if(!nameIsOK(Name))
     {
         cout << "unsuccessful" << endl;
         return;
@@ -115,7 +147,6 @@ void AVLTree::insert(string Name, int ID)
 
     Student* S = new Student(ID, Name);
     Student* parent = findNodeToInsertUnder(root, S->ID);
-    if (parent == nullptr) root = S; //in case the tree is empty
 
     //insert the child node
     if(S->ID > parent->ID)
@@ -125,6 +156,7 @@ void AVLTree::insert(string Name, int ID)
 
     //now we have to balance this thang lol
     //the only situation you need to find the ancestor is if the height from the root is > 3
+    // cout << "height is" << findHeight(root) << endl;
     if(findHeight(parent) > 2 && findHeight(root) > 3)
         balanceTheTree(S, findAncestor(root, S->ID));
 
@@ -177,11 +209,13 @@ void AVLTree::balanceTheTree(Student* theCulprit, Student* ancestor = nullptr)
         topNode->LEFT = nullptr;
         midNode->LEFT = topNode;
         if(ancestor)
+        {
             if(midNode->ID < ancestor->ID)
                 ancestor->LEFT = midNode;
             else
                 ancestor->RIGHT = midNode;
-        if(findHeight()==2) root = midNode;
+        }
+        if(findHeight(root)==2) root = midNode;
     }
 
     if(RR)
@@ -191,11 +225,13 @@ void AVLTree::balanceTheTree(Student* theCulprit, Student* ancestor = nullptr)
         topNode->RIGHT = nullptr;
         midNode->RIGHT = topNode;
         if(ancestor)
+        {
             if(midNode->ID < ancestor->ID)
                 ancestor->LEFT = midNode;
             else
                 ancestor->RIGHT = midNode;
-        if(findHeight()==2) root = midNode;
+        }
+        if(findHeight(root)==2) root = midNode;
     }
 
     if(LR)
@@ -211,11 +247,13 @@ void AVLTree::balanceTheTree(Student* theCulprit, Student* ancestor = nullptr)
         botNode->RIGHT = topNode;
 
         if(ancestor)
+        {
             if(midNode->ID < ancestor->ID)
                 ancestor->LEFT = midNode;
             else
                 ancestor->RIGHT = midNode;
-        if(findHeight()==2) root = midNode;
+        }
+        if(findHeight(root)==2) root = midNode;
     }
 
     if(RL)
@@ -231,11 +269,13 @@ void AVLTree::balanceTheTree(Student* theCulprit, Student* ancestor = nullptr)
         botNode->RIGHT = midNode;
 
         if(ancestor)
+        {
             if(midNode->ID < ancestor->ID)
                 ancestor->LEFT = midNode;
             else
                 ancestor->RIGHT = midNode;
-        if(findHeight()==2) root = midNode;
+        }
+        if(findHeight(root)==2) root = midNode;
     }
 }
 
@@ -254,18 +294,16 @@ Student* AVLTree::findNodeToInsertUnder(Student* S, int ID)
 
 //this can also be used to when we are trying to balance the tree. we'll see...
 //DONE (i think)
-int AVLTree::findHeight(Student* S = root)
+int AVLTree::findHeight(Student* S)
 {
-    if(S == nullptr) return 0; //only returns 0 when the root is nullptr
+    if(!S) return 0; //only returns 0 when the root is nullptr
 
     int leftHeight, rightHeight = 1;
-    Student* l = root->LEFT;
-    Student* r = root->RIGHT;
+    Student* l = S->LEFT;
+    Student* r = S->RIGHT;
 
-    if(l != nullptr)
-        leftHeight += findHeight(l);
-    if(r != nullptr)
-        rightHeight += findHeight(r);
+    leftHeight += findHeight(l);
+    rightHeight += findHeight(r);
 
     //return whichever height is greater
     return leftHeight > rightHeight ? leftHeight : rightHeight;
@@ -274,12 +312,12 @@ int AVLTree::findHeight(Student* S = root)
 //DONE
 void AVLTree::printLevelCount()
 {
-    cout << findHeight() << endl;
+    cout << findHeight(root) << endl;
 }
 
 //CLEAR INORDER LIST BEFORE CALLING THIS
 //DONE (i think)
-void AVLTree::traverseInOrder(Student* S = root)
+void AVLTree::traverseInOrder(Student* S)
 {
     Student* l = S->LEFT;
     Student* r = S->RIGHT;
@@ -294,7 +332,7 @@ void AVLTree::traverseInOrder(Student* S = root)
 void AVLTree::printInOrder()
 {
     inOrder.clear();
-    traverseInOrder();
+    traverseInOrder(root);
     for(int i = 0; i < inOrder.size()-1; i++)
         cout << inOrder[i]->NAME << ", ";
     cout << inOrder[inOrder.size()-1]->NAME << endl;
@@ -302,7 +340,7 @@ void AVLTree::printInOrder()
 
 //CLEAR PREORDER LIST BEFORE CALLING THIS
 //DONE (i think)
-void AVLTree::traversePreOrder(Student* S = root)
+void AVLTree::traversePreOrder(Student* S)
 {
     preOrder.push_back(S);
     Student* l = S->LEFT;
@@ -317,7 +355,7 @@ void AVLTree::traversePreOrder(Student* S = root)
 void AVLTree::printPreOrder()
 {
     preOrder.clear();
-    traversePreOrder();
+    traversePreOrder(root);
     for(int i = 0; i < preOrder.size()-1; i++)
         cout << preOrder[i]->NAME << ", ";
     cout << preOrder[preOrder.size()-1]->NAME << endl;
@@ -325,7 +363,7 @@ void AVLTree::printPreOrder()
 
 //CLEAR POSTORDER LIST BEFORE CALLING THIS
 //DONE (i think)
-void AVLTree::traversePostOrder(Student* S = root)
+void AVLTree::traversePostOrder(Student* S)
 {
     Student* l = S->LEFT;
     Student* r = S->RIGHT;
@@ -340,21 +378,26 @@ void AVLTree::traversePostOrder(Student* S = root)
 void AVLTree::printPostOrder()
 {
     postOrder.clear();
-    traversePostOrder();
+    traversePostOrder(root);
     for(int i = 0; i < postOrder.size()-1; i++)
         cout << postOrder[i]->NAME << ", ";
     cout << postOrder[postOrder.size()-1]->NAME << endl;
 }
 
 //DONE (i think)
-void AVLTree::removeInorder(int N)
+bool AVLTree::removeInOrder(int N)
 {
     //fyi, N is the index of the student that we have to remove in the inorder traversal
-    traverseInOrder();
+    traverseInOrder(root);
     if(N > inOrder.size() || N < 0)
+    {
         cout << "unsuccessful" << endl;
+        return false;
+    }
 
     Student* S = inOrder[N];
     remove(S->ID);
-    cout << "successful" << endl;
+    // cout << "successful" << endl;
+    // ^^^^^^ dont need this bc remove prints "successful" when it removes a student
+    return true;
 }
