@@ -46,10 +46,10 @@ using namespace std;
  *     If the Nth GatorID does not exist within the tree, print “unsuccessful.”
  */
 
-bool isNum(char* str)
+bool isNum(string str)
 {
-    for (size_t i = 0; i < strlen(str); i++)
-        if (!std::isdigit(str[i])) return false;
+    for (size_t i = 0; i < str.length(); i++)
+        if (!isdigit(str[i])) return false;
     return true;
 }
 
@@ -79,13 +79,14 @@ int main()
 
             string idstr;
             s >> idstr;
-
-            t.insert(arg, stoi(idstr));
+            if (!isNum) cout << "unsuccessful" << endl;
+            else t.insert(arg, stoi(idstr));
         }
         else if (com == "remove")
         {
             s >> arg; //put id into arg
-            t.remove(stoi(arg));
+            if (!isNum) cout << "unsuccessful" << endl;
+            else t.remove(stoi(arg));
         }
         else if (com == "search")
         {
@@ -99,7 +100,8 @@ int main()
             else
             {
                 s >> arg;
-                t.search(stoi(arg));
+                if (!isNum) cout << "unsuccessful" << endl;
+                else t.search(stoi(arg));
             }
         }
         else if (com == "printInorder") t.printInOrder();
@@ -109,7 +111,8 @@ int main()
         else if (com == "removeInorder")
         {
             s >> arg; //put N into arg
-            t.removeInOrder(stoi(arg));
+            if (!isNum) cout << "unsuccessful" << endl;
+            else t.removeInOrder(stoi(arg));
         }
         else cout << "unsuccessful" << endl;
     }
